@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -11,4 +12,4 @@ class Profile(models.Model):
     uuid = models.CharField(max_length=100, blank=True)
     txnid = models.CharField(max_length=100, blank=True)
     sid = models.CharField(max_length=100, blank=True)
-    banklink=models.BooleanField(default=False)
+    banklink = models.BooleanField(default=False)

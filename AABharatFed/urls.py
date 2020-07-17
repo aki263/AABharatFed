@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from AccAggApp.views import ProfileView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('allauth.urls')),
-    path('accounts/profile/',ProfileView.as_view())
+    path('accounts/profile/', ProfileView.as_view())
+
 ]
