@@ -1,0 +1,58 @@
+{"header":{"mid":"17a60c00-6309-45f6-85a5-9ce6861e628c","ts":"2020-07-16T20:35:32.344Z","sid":null,"dup":false,"type":"urn:finvu:in:app:req.register.01"},"payload":{"mobileno":"9910423393","username":"aaqq@finvu","password":"2468","repassword":"2468"}}	252	
+02:05:32.346
+{"header":{"mid":"17a60c00-6309-45f6-85a5-9ce6861e628c","ts":"2020-07-16T20:35:32.344+0000","sid":null,"dup":false,"type":"urn:finvu:in:app:res.register.01"},"payload":{"status":"SUCCESS","message":"User account registered."}}	226	
+02:05:32.844
+{"header":{"mid":"60cee253-159f-4a92-aed8-d1022b1c52e4","ts":"2020-07-16T20:35:32.950Z","sid":null,"dup":false,"type":"urn:finvu:in:app:req.login.01"},"payload":{"username":"aaqq@finvu","password":"2468"}}	205	
+02:05:32.951
+{"header":{"mid":"60cee253-159f-4a92-aed8-d1022b1c52e4","ts":"2020-07-16T20:35:32.950+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.login.01"},"payload":{"status":"SUCCESS","message":"Welcome!"}}	231	
+02:05:33.044
+{"header":{"mid":"7186f8cf-fa69-44df-acc6-9c1bf69b0b03","ts":"2020-07-16T20:35:33.044Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.mobileVerification.01"},"payload":{"mobileNum":"9910423393"}}	225	
+02:05:33.045
+{"header":{"mid":"7186f8cf-fa69-44df-acc6-9c1bf69b0b03","ts":"2020-07-16T20:35:33.044+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.mobileVerification.01"},"payload":{"status":"SEND","message":"Otp Sent"}}	241	
+02:05:33.721
+{"header":{"mid":"3147ed3f-40f4-4ab9-a506-2d259c76ba0b","ts":"2020-07-16T20:35:49.803Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.mobileVerificationVerify.01"},"payload":{"mobileNum":"9910423393","otp":"818781"}}	246	
+02:05:49.804
+{"header":{"mid":"3147ed3f-40f4-4ab9-a506-2d259c76ba0b","ts":"2020-07-16T20:35:49.803+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.mobileVerificationVerify.01"},"payload":{"status":"ACCEPT","message":"Mobile authentication successful."}}	274	
+02:05:50.391
+{"header":{"mid":"3065351e-415f-4fea-bbd8-3316b078f2ce","ts":"2020-07-16T20:35:53.985Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.popularSearch.01"},"payload":{}}	196	
+02:05:53.986
+{"header":{"mid":"3065351e-415f-4fea-bbd8-3316b078f2ce","ts":"2020-07-16T20:35:53.985+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.popularSearch.01"},"payload":{"status":"SUCCESS","message":null,"poularSearch":[{"fipId":"BARB0KIMXXX","productName":"Bank of Baroda","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"Bank of Baroda","productIconUri":null},{"fipId":"INDUSIND","productName":"IndusInd Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"IndusInd Bank","productIconUri":"http://www.finvu.in/cdn/indusind_logo.jpg"},{"fipId":"ICICI","productName":"ICICI Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"ICICI Bank","productIconUri":null},{"fipId":"AXIS001","productName":"Axis Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"Axis Bank","productIconUri":null},{"fipId":"idfc-first-fip-uat","productName":"IDFC First Bank","fipFitypes":["DEPOSIT"],"fipFsr":"RBI","productDesc":"IDFC First Bank","productIconUri":null}]}}	1145	
+02:05:54.032
+{"header":{"mid":"d97aecc0-2503-49fb-a309-747c36ccc54b","ts":"2020-07-16T20:35:56.776Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.userInfo.01"},"payload":{"userId":"aaqq@finvu"}}	212	
+02:05:56.777
+{"header":{"mid":"d97aecc0-2503-49fb-a309-747c36ccc54b","ts":"2020-07-16T20:35:56.776+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.userInfo.01"},"payload":{"status":"ACCEPT","message":"Received UserInfo Successfully","UserInfo":{"userId":"aaqq@finvu","mobileNo":"9910423393","mobileAuthenticated":"Y","emailId":"","emailAuthenticated":"N"}}}	378	
+02:05:57.015
+{"header":{"mid":"36b2a1dd-df20-422d-a0ae-d7dd81409aa9","ts":"2020-07-16T20:35:57.016Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.discover.01"},"payload":{"ver":"1.0","timestamp":"2020-07-16T20:35:57.016Z","txnid":"4e2f593c-b61f-423f-8580-940e3027d1e6","Customer":{"id":"aaqq@finvu","Identifiers":[{"category":"STRONG","type":"MOBILE","value":"9910423393"}]},"FIPDetails":{"fipId":"BARB0KIMXXX","fipName":"Bank of Baroda"},"FITypes":["DEPOSIT"]}}	480	
+02:05:57.017
+{"header":{"mid":"8ade7e0f-3c11-4740-8974-1ecd99030c65","ts":"2020-07-16T20:35:57.016Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.userLinkedAccount.01"},"payload":{"userId":"aaqq@finvu"}}	221	
+02:05:57.017
+{"header":{"mid":"36b2a1dd-df20-422d-a0ae-d7dd81409aa9","ts":"2020-07-16T20:35:57.016+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.discover.01"},"payload":{"status":"RECORD-NOT-FOUND","message":"No Accounts found.","ver":null,"timestamp":null,"txnid":null,"DiscoveredAccounts":null}}	320	
+02:05:57.284
+{"header":{"mid":"8ade7e0f-3c11-4740-8974-1ecd99030c65","ts":"2020-07-16T20:35:57.016+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.userLinkedAccount.01"},"payload":{"status":"RECORD-NOT-FOUND","message":"Account not yet linked.","LinkedAccounts":null}}	289	
+02:05:57.353
+{"header":{"mid":"96a821ce-1c24-4615-8507-7fb5eeecefc9","ts":"2020-07-16T20:37:39.293Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.popularSearch.01"},"payload":{}}	196	
+02:07:39.294
+{"header":{"mid":"96a821ce-1c24-4615-8507-7fb5eeecefc9","ts":"2020-07-16T20:37:39.293+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.popularSearch.01"},"payload":{"status":"SUCCESS","message":null,"poularSearch":[{"fipId":"BARB0KIMXXX","productName":"Bank of Baroda","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"Bank of Baroda","productIconUri":null},{"fipId":"INDUSIND","productName":"IndusInd Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"IndusInd Bank","productIconUri":"http://www.finvu.in/cdn/indusind_logo.jpg"},{"fipId":"ICICI","productName":"ICICI Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"ICICI Bank","productIconUri":null},{"fipId":"AXIS001","productName":"Axis Bank","fipFitypes":["DEPOSIT","TERM-DEPOSIT","RECURRING_DEPOSIT"],"fipFsr":"RBI","productDesc":"Axis Bank","productIconUri":null},{"fipId":"idfc-first-fip-uat","productName":"IDFC First Bank","fipFitypes":["DEPOSIT"],"fipFsr":"RBI","productDesc":"IDFC First Bank","productIconUri":null}]}}	1145	
+02:07:39.342
+{"header":{"mid":"91e672d8-796e-4d9f-b38a-bb80ff47fa3c","ts":"2020-07-16T20:41:08.131Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.userInfo.01"},"payload":{"userId":"aaqq@finvu"}}	212	
+02:11:08.132
+{"header":{"mid":"91e672d8-796e-4d9f-b38a-bb80ff47fa3c","ts":"2020-07-16T20:41:08.131+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.userInfo.01"},"payload":{"status":"ACCEPT","message":"Received UserInfo Successfully","UserInfo":{"userId":"aaqq@finvu","mobileNo":"9910423393","mobileAuthenticated":"Y","emailId":"","emailAuthenticated":"N"}}}	378	
+02:11:08.367
+{"header":{"mid":"e92bed0d-1531-44d8-baec-cc4a74630ae9","ts":"2020-07-16T20:41:08.369Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.discover.01"},"payload":{"ver":"1.0","timestamp":"2020-07-16T20:41:08.369Z","txnid":"927265f5-3969-41ce-93cb-aeff8b646930","Customer":{"id":"aaqq@finvu","Identifiers":[{"category":"STRONG","type":"MOBILE","value":"9910423393"}]},"FIPDetails":{"fipId":"BARB0KIMXXX","fipName":"Bank of Baroda"},"FITypes":["DEPOSIT"]}}	480	
+02:11:08.370
+{"header":{"mid":"a6748e8b-6fda-40fa-a5d5-4e041cb751fd","ts":"2020-07-16T20:41:08.370Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.userLinkedAccount.01"},"payload":{"userId":"aaqq@finvu"}}	221	
+02:11:08.371
+{"header":{"mid":"e92bed0d-1531-44d8-baec-cc4a74630ae9","ts":"2020-07-16T20:41:08.369+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.discover.01"},"payload":{"status":"SUCCESS","message":null,"ver":"1.0","timestamp":"2020-07-16T20:41:08.573+0000","txnid":"927265f5-3969-41ce-93cb-aeff8b646930","DiscoveredAccounts":[{"accType":"CURRENT","accRefNumber":"0ONRUR822XE","maskedAccNumber":"XXXXXXJ820","FIType":"DEPOSIT"}]}}	454	
+02:11:08.658
+{"header":{"mid":"a6748e8b-6fda-40fa-a5d5-4e041cb751fd","ts":"2020-07-16T20:41:08.370+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.userLinkedAccount.01"},"payload":{"status":"RECORD-NOT-FOUND","message":"Account not yet linked.","LinkedAccounts":null}}	289	
+02:11:08.667
+{"header":{"mid":"2f42ce62-cb25-45ed-ae9e-64f597c7db27","ts":"2020-07-16T20:41:14.426Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.userInfo.01"},"payload":{"userId":"aaqq@finvu"}}	212	
+02:11:14.427
+{"header":{"mid":"2f42ce62-cb25-45ed-ae9e-64f597c7db27","ts":"2020-07-16T20:41:14.426+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.userInfo.01"},"payload":{"status":"ACCEPT","message":"Received UserInfo Successfully","UserInfo":{"userId":"aaqq@finvu","mobileNo":"9910423393","mobileAuthenticated":"Y","emailId":"","emailAuthenticated":"N"}}}	378	
+02:11:14.665
+{"header":{"mid":"a0c7f10d-266c-451c-b3ca-58ac52f90bbd","ts":"2020-07-16T20:41:14.667Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.linking.01"},"payload":{"ver":"1.0","timestamp":"2020-07-16T20:41:14.667Z","txnid":"b26ff24b-ffec-469a-b162-c01dd9e5ebc9","FIPDetails":{"fipId":"BARB0KIMXXX","fipName":"Bank of Baroda"},"Customer":{"id":"aaqq@finvu","Accounts":[{"maskedAccNumber":"XXXXXXJ820","accRefNumber":"0ONRUR822XE","FIType":"DEPOSIT","accType":"CURRENT"}]}}}	496	
+02:11:14.667
+{"header":{"mid":"a0c7f10d-266c-451c-b3ca-58ac52f90bbd","ts":"2020-07-16T20:41:14.667+0000","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:res.linking.01"},"payload":{"status":"SUCCESS","message":null,"ver":"1.0","timestamp":"2020-07-16T20:41:14.695+0000","txnid":"b26ff24b-ffec-469a-b162-c01dd9e5ebc9","AuthenticatorType":"TOKEN","RefNumber":"bb65b187-7453-4491-8c81-b1adcbeb011f"}}	408	
+02:11:23.326
+{"header":{"mid":"9695147a-40ec-4415-a14e-3a2400ababc8","ts":"2020-07-16T20:41:29.752Z","sid":"01EDCNDRGA0156SFKHS85DJK44","dup":false,"type":"urn:finvu:in:app:req.confirm-token.01"},"payload":{"ver":"1.0","timestamp":"2020-07-16T20:41:29.752Z","txnid":"b89a13b6-1446-4b83-b84f-a69ef63fa391","AccountsLinkingRefNumber":"bb65b187-7453-4491-8c81-b1adcbeb011f","token":"882597","Accounts":[{"maskedAccNumber":"XXXXXXJ820","accRefNumber":"0ONRUR822XE","FIType":"DEPOSIT","accType":"CURRENT"}],"FIPDetails":{"fipId":"BARB0KIMXXX","fipName":"Bank of Baroda"}}}	554	
+02:11:29.752
