@@ -12,4 +12,9 @@ class Profile(models.Model):
     uuid = models.CharField(max_length=100, blank=True)
     txnid = models.CharField(max_length=100, blank=True)
     sid = models.CharField(max_length=100, blank=True)
+    userID = models.CharField(max_length=100, blank=True)
+    sessionid = models.CharField(max_length=1000, blank=True)
     banklink = models.BooleanField(default=False)
+
+class Settings(models.Model):
+    google_auth_token = models.TextField(blank=True)

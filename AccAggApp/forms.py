@@ -4,71 +4,141 @@ import random
 import string
 import uuid
 from xml.etree.ElementTree import Element, SubElement, tostring
-
+from .background import create_dummy_data
 import requests
 import websocket
 from allauth.account.forms import SignupForm
 from allauth.account.signals import user_signed_up
 from django import forms
 from django.dispatch import receiver
-
+import threading
 from .models import *
 
 
 @receiver(user_signed_up)
 def user_signed_up_(request, user, **kwargs):
     print(user)
+    profile = Profile.objects.get(user=user)
+    base_url='https://api-sandbox.onemoney.in'
     detail_dict = {
         'pan': request.POST.get('pan'),
         'email': request.POST.get('email'),
         'mobile': request.POST.get('mobile'),
     }
-    detail_dict = add_user_test_acc(detail_dict)
-    profile = Profile.objects.get(user=user)
-    profile.accountNo = detail_dict['accountNo']
-    profile.accountRefNo = detail_dict['accountRefNo']
-    mid = str(uuid.uuid4())
-    profile.uuid = mid
+    pan= request.POST.get('pan')
+    email = request.POST.get('email')
+    mobile = request.POST.get('mobile')
+    #thread task to add dummmy data
+    t=threading.Thread(target=create_dummy_data,args=[mobile])
+    t.setDaemon(True)
+    t.start()
+
+    #begin signup
+    payload={"username":user.username,"phone_number":mobile,"password":"246824","termsAndConditions":True,"consentPin":"123456"}
+    url= base_url+ '/user/signup'
+    resp=make_req(url,payload)
+    print(resp.text)
+    profile.userID=resp.json()['userID']
     profile.save()
-    ws = websocket.WebSocket()
-    ws.connect("wss://wssdev.finvu.in/api", http_proxy_host="127.0.0.1", http_proxy_port=8888)
-    msg = {"header": {"mid": mid
-        , "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z', "sid": None,
-                      "dup": False, "type": "urn:finvu:in:app:req.register.01"},
-           "payload": {"mobileno": detail_dict['mobile'], "username": user.username + "@finvu", "password": "2468",
-                       "repassword": "2468"}}
-    msg = json.dumps(msg)
-    print(msg)
-    ws.send(msg)
-    result = ws.recv()
-    print(result)
-    if 'User account registered' in result:
-        # login
-        msg = {"header": {"mid": mid, "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
-                          "sid": None,
-                          "dup": False, "type": "urn:finvu:in:app:req.login.01"},
-               "payload": {"username": user.username + "@finvu", "password": "2468"}}
+    #verify otp
+    url= base_url+'/user/otp'
+    payload={"username":mobile,"code":"123456"}
+    resp = make_req(url, payload)
+    print('OTP RESPONE',resp.text)
 
-        msg = json.dumps(msg)  # error here
-        print(msg)
-        ws.send(msg)
-        result = ws.recv()
-        print(result)
-        result = json.loads(result)
-        sid = result['header']['sid']
-        profile.sid = sid
-        profile.save()
-        if result['payload']['status'] == 'SUCCESS':
-            msg = {"header": {"mid": mid, "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
-                              "sid": sid,
-                              "dup": False, "type": "urn:finvu:in:app:req.mobileVerification.01"},
-                   "payload": {"mobileNum": detail_dict['mobile']}}
+    #set vpa
+    url = base_url + '/user/setvua'
+    payload = {"consentPin":"123456","phone_number":mobile,"vua":mobile+"@onemoney"}
+    resp = make_req(url, payload)
+    print('VPA RESPONE', resp.text)
 
-            ws.send(json.dumps(msg))
-            result = ws.recv()
-            print(result)
-            result = json.loads(result)
 
+    #login user
+    url = base_url + '/user/login'
+    payload = {"username":mobile,"password":"246824"}
+    resp = make_req(url, payload)
+    print('LOGIN RESPONE', resp.text)
+    sessionid=resp.json()['session']
+    profile.sessionid=sessionid
+    profile.save()
+
+
+
+def make_req(url,payload):
+    proxy = {
+        'http': 'http://127.0.0.1:8888',
+        'https': 'http://127.0.0.1:8888',
+    }
+    resp = requests.post(url, json=payload, verify=False, proxies=proxy)
+    return  resp
+
+
+    # detail_dict = add_user_test_acc(detail_dict)
+    # profile = Profile.objects.get(user=user)
+    # profile.accountNo = detail_dict['accountNo']
+    # profile.accountRefNo = detail_dict['accountRefNo']
+    # mid = str(uuid.uuid4())
+    # profile.uuid = mid
+    # profile.save()
+
+
+
+
+    # ws = websocket.WebSocket()
+    # ws.connect("wss://wssdev.finvu.in/api", http_proxy_host="127.0.0.1", http_proxy_port=8888)
+    # msg = {"header": {"mid": str(uuid.uuid4())
+    #     , "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z', "sid": None,
+    #                   "dup": False, "type": "urn:finvu:in:app:req.register.01"},
+    #        "payload": {"mobileno": detail_dict['mobile'], "username": user.username + "@finvu", "password": "2468",
+    #                    "repassword": "2468"}}
+    # msg = json.dumps(msg)
+    # print(msg)
+    # ws.send(msg)
+    # result = ws.recv()
+    # print(result)
+    # if 'User account registered' in result:
+    #     # login
+    #     msg = {"header": {"mid": str(uuid.uuid4()), "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+    #                       "sid": None,
+    #                       "dup": False, "type": "urn:finvu:in:app:req.login.01"},
+    #            "payload": {"username": user.username + "@finvu", "password": "2468"}}
+    #
+    #     msg = json.dumps(msg)  # error here
+    #     print(msg)
+    #     ws.send(msg)
+    #     result = ws.recv()
+    #     print(result)
+    #     result = json.loads(result)
+    #     sid = result['header']['sid']
+    #     profile.sid = sid
+    #     profile.save()
+    #     if result['payload']['status'] == 'SUCCESS':
+    #         msg = {"header": {"mid": str(uuid.uuid4()), "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+    #                           "sid": sid,
+    #                           "dup": False, "type": "urn:finvu:in:app:req.mobileVerification.01"},
+    #                "payload": {"mobileNum": detail_dict['mobile']}}
+    #
+    #         ws.send(json.dumps(msg))
+    #         result = ws.recv()
+    #         print(result)
+    #         result = json.loads(result)
+    #
+    #         msg={"header":{"mid":str(uuid.uuid4()),"ts":datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+    #                        "sid":sid,
+    #                        "dup":False,"type":"urn:finvu:in:app:req.userOfflineMessages.01"},"payload":{"userId":user.username + "@finvu"}}
+    #         ws.send(json.dumps(msg))
+    #         result = ws.recv()
+    #         print(result)
+    #         msg = {"header": {"mid": str(uuid.uuid4()),
+    #                           "ts": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z',
+    #                           "sid": sid,
+    #                           "dup": False, "type": "urn:finvu:in:app:res.logout.01"},
+    #                "payload": {"userId": user.username + "@finvu"}}
+    #         ws.send(json.dumps(msg))
+    #         #result = ws.recv()
+    #         #print(result)
+    #
+    #         ws.close()
 
 class MyCustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name')
