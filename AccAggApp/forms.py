@@ -141,10 +141,10 @@ def make_req(url,payload):
     #         ws.close()
 
 class MyCustomSignupForm(SignupForm):
-    first_name = forms.CharField(max_length=30, label='First Name')
-    last_name = forms.CharField(max_length=30, label='Last Name')
-    mobile = forms.CharField(max_length=10, label='Mobile Number')
-    pan = forms.CharField(max_length=11, label='PAN Number')
+    first_name = forms.CharField(max_length=30,label='First Name',widget=forms.TextInput( attrs={'placeholder': 'First Name'}))
+    last_name = forms.CharField(max_length=30, label='Last Name',widget=forms.TextInput( attrs={'placeholder': 'Last Name'}))
+    mobile = forms.CharField(max_length=10, label='Mobile Number',widget=forms.TextInput( attrs={'placeholder': 'Mobile Number'}))
+    pan = forms.CharField(max_length=11, label='PAN Number',widget=forms.TextInput( attrs={'placeholder': 'Pan Number'}))
 
     def save(self, request):
         # Ensure you call the parent class's save.

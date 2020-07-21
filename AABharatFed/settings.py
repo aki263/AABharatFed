@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AccAggApp.apps.AccaggappConfig',
     'django.contrib.sites',
+'widget_tweaks',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
