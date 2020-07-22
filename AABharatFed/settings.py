@@ -57,6 +57,8 @@ MIDDLEWARE = [
 ACCOUNT_FORMS = {'signup': 'AccAggApp.forms.MyCustomSignupForm'}
 ROOT_URLCONF = 'AABharatFed.urls'
 
+proxy=None
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

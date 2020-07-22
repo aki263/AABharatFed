@@ -13,54 +13,58 @@ from django import forms
 from django.dispatch import receiver
 import threading
 from .models import *
+from AABharatFed import settings
 
 
 @receiver(user_signed_up)
 def user_signed_up_(request, user, **kwargs):
-    print(user)
-    profile = Profile.objects.get(user=user)
-    base_url='https://api-sandbox.onemoney.in'
-    detail_dict = {
-        'pan': request.POST.get('pan'),
-        'email': request.POST.get('email'),
-        'mobile': request.POST.get('mobile'),
-    }
-    pan= request.POST.get('pan')
-    email = request.POST.get('email')
-    mobile = request.POST.get('mobile')
-    #thread task to add dummmy data
-    t=threading.Thread(target=create_dummy_data,args=[mobile])
-    t.setDaemon(True)
-    t.start()
+    try:
 
-    #begin signup
-    payload={"username":user.username,"phone_number":mobile,"password":"246824","termsAndConditions":True,"consentPin":"123456"}
-    url= base_url+ '/user/signup'
-    resp=make_req(url,payload)
-    print(resp.text)
-    profile.userID=resp.json()['userID']
-    profile.save()
-    #verify otp
-    url= base_url+'/user/otp'
-    payload={"username":mobile,"code":"123456"}
-    resp = make_req(url, payload)
-    print('OTP RESPONE',resp.text)
+        profile = Profile.objects.get(user=user)
+        base_url='https://api-sandbox.onemoney.in'
+        detail_dict = {
+            'pan': request.POST.get('pan'),
+            'email': request.POST.get('email'),
+            'mobile': request.POST.get('mobile'),
+        }
+        pan= request.POST.get('pan')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        #thread task to add dummmy data
+        t=threading.Thread(target=create_dummy_data,args=[mobile])
+        t.setDaemon(True)
+        t.start()
 
-    #set vpa
-    url = base_url + '/user/setvua'
-    payload = {"consentPin":"123456","phone_number":mobile,"vua":mobile+"@onemoney"}
-    resp = make_req(url, payload)
-    print('VPA RESPONE', resp.text)
+        #begin signup
+        payload={"username":user.username,"phone_number":mobile,"password":"246824","termsAndConditions":True,"consentPin":"123456"}
+        url= base_url+ '/user/signup'
+        resp=make_req(url,payload)
+        print(resp.text)
+        profile.userID=resp.json()['userID']
+        profile.save()
+        #verify otp
+        url= base_url+'/user/otp'
+        payload={"username":mobile,"code":"123456"}
+        resp = make_req(url, payload)
+        print('OTP RESPONE',resp.text)
+
+        #set vpa
+        url = base_url + '/user/setvua'
+        payload = {"consentPin":"123456","phone_number":mobile,"vua":mobile+"@onemoney"}
+        resp = make_req(url, payload)
+        print('VPA RESPONE', resp.text)
 
 
-    #login user
-    url = base_url + '/user/login'
-    payload = {"username":mobile,"password":"246824"}
-    resp = make_req(url, payload)
-    print('LOGIN RESPONE', resp.text)
-    sessionid=resp.json()['session']
-    profile.sessionid=sessionid
-    profile.save()
+        #login user
+        url = base_url + '/user/login'
+        payload = {"username":mobile,"password":"246824"}
+        resp = make_req(url, payload)
+        print('LOGIN RESPONE', resp.text)
+        sessionid=resp.json()['session']
+        profile.sessionid=sessionid
+        profile.save()
+    except Exception as ex:
+        print(ex,'EXCEPTION AT SIGNAL')
 
 
 
@@ -69,7 +73,7 @@ def make_req(url,payload):
         'http': 'http://127.0.0.1:8888',
         'https': 'http://127.0.0.1:8888',
     }
-    resp = requests.post(url, json=payload, verify=False, proxies=proxy)
+    resp = requests.post(url, json=payload, verify=False, proxies=settings.proxy)
     return  resp
 
 
