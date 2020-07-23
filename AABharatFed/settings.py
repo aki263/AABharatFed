@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'background_task',
+
 ]
 SITE_ID = 1
 MIDDLEWARE = [
@@ -132,4 +132,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT='/mnt/d/Projects/AABharatFed/staic/'
+
 ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_LOGOUT_ON_GET=True

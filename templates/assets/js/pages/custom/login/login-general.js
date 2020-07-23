@@ -25,7 +25,7 @@ var KTLogin = function() {
 			KTUtil.getById('kt_login_signin_form'),
 			{
 				fields: {
-					username: {
+					login: {
 						validators: {
 							notEmpty: {
 								message: 'Username is required'
@@ -53,10 +53,12 @@ var KTLogin = function() {
             e.preventDefault();
 
             validation.validate().then(function(status) {
-		        if (1) {
-                    swal.fire({
-		                text: "All is cool! Now you submit this form",
-		                icon: "success",
+		        if (status == 'Valid') {
+                    $('#kt_login_signin_form').submit();
+				} else {
+					swal.fire({
+		                text: "Sorry, looks like there are some errors detected, please try again.",
+		                icon: "error",
 		                buttonsStyling: false,
 		                confirmButtonText: "Ok, got it!",
                         customClass: {
@@ -91,10 +93,45 @@ var KTLogin = function() {
 			form,
 			{
 				fields: {
-					fullname: {
+					first_name: {
 						validators: {
 							notEmpty: {
-								message: 'Username is required'
+								message: 'First Name is required'
+							}
+						}
+					},
+					last_name: {
+						validators: {
+							notEmpty: {
+								message: 'Last Name is required'
+							}
+						}
+					},
+                    username: {
+						validators: {
+							notEmpty: {
+								message: 'Username is Required'
+							}
+						}
+					},
+                    pan: {
+						validators: {
+							notEmpty: {
+								message: 'Pan is required'
+							},stringLength: {
+							    main:11,
+                            max: 11,
+                            message: 'PAN must be of 11 Character'
+                        }
+						}
+					},
+                    mobile: {
+						validators: {
+							phone: {
+							    country: function() {
+                                return form.querySelector('India').value;
+                            },
+								message: 'Mobile number is required'
 							}
 						}
 					},
@@ -108,21 +145,21 @@ var KTLogin = function() {
 							}
 						}
 					},
-                    password: {
+                    password1: {
                         validators: {
                             notEmpty: {
                                 message: 'The password is required'
                             }
                         }
                     },
-                    cpassword: {
+                    password2: {
                         validators: {
                             notEmpty: {
                                 message: 'The password confirmation is required'
                             },
                             identical: {
                                 compare: function() {
-                                    return form.querySelector('[name="password"]').value;
+                                    return form.querySelector('[name="password1"]').value;
                                 },
                                 message: 'The password and its confirm are not the same'
                             }
@@ -138,7 +175,8 @@ var KTLogin = function() {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
+					bootstrap: new FormValidation.plugins.Bootstrap(),
+					submitButton: new FormValidation.plugins.SubmitButton()
 				}
 			}
 		);
@@ -147,10 +185,14 @@ var KTLogin = function() {
             e.preventDefault();
 
             validation.validate().then(function(status) {
-		        if (1) {
-                    swal.fire({
-		                text: "All is cool! Now you submit this form",
-		                icon: "success",
+		        if (status == 'Valid') {
+		        	console.log(e);
+		        	$('#kt_login_signup_form').submit();
+
+				} else {
+					swal.fire({
+		                text: "Sorry, looks like there are some errors detected, please try again.",
+		                icon: "error",
 		                buttonsStyling: false,
 		                confirmButtonText: "Ok, got it!",
                         customClass: {
@@ -162,7 +204,6 @@ var KTLogin = function() {
 				}
 		    });
         });
-
         // Handle cancel button
         $('#kt_login_signup_cancel').on('click', function (e) {
             e.preventDefault();

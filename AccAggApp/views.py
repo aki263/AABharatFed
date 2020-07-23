@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import make_req
 import websocket
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 import requests
 from .models import *
@@ -173,5 +173,8 @@ class Conset1(LoginRequiredMixin,View):
 
 class profile2(View):
     def get(self,request):
-        return render(request, 'profile.html', {'login': 'Added Succeess'})
+        return render(request, 'profilec.html', {'login': 'Added Succeess'})
+
+    def post(self,request):
+        return redirect('accounts/dashboard/')
 
