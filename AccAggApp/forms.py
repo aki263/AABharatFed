@@ -14,6 +14,9 @@ from django.dispatch import receiver
 import threading
 from .models import *
 from AABharatFed import settings
+import jwt
+
+
 
 
 @receiver(user_signed_up)
@@ -21,7 +24,7 @@ def user_signed_up_(request, user, **kwargs):
     try:
 
         profile = Profile.objects.get(user=user)
-        base_url='https://api-sandbox.onemoney.in'
+
         detail_dict = {
             'pan': request.POST.get('pan'),
             'email': request.POST.get('email'),
@@ -30,12 +33,13 @@ def user_signed_up_(request, user, **kwargs):
         pan= request.POST.get('pan')
         email = request.POST.get('email')
         mobile = request.POST.get('mobile')
-        #thread task to add dummmy data
-        t=threading.Thread(target=create_dummy_data,args=[mobile])
-        t.setDaemon(True)
-        t.start()
+
+        # #thread task to add dummmy data
+        threading.Thread(target=create_dummy_data,args=[mobile],daemon=True).start()
+
 
         #begin signup
+        base_url='https://api-sandbox.onemoney.in'
         payload={"username":user.username,"phone_number":mobile,"password":"246824","termsAndConditions":True,"consentPin":"123456"}
         url= base_url+ '/user/signup'
         resp=make_req(url,payload)
@@ -69,12 +73,26 @@ def user_signed_up_(request, user, **kwargs):
 
 
 def make_req(url,payload):
-    proxy = {
-        'http': 'http://127.0.0.1:8888',
-        'https': 'http://127.0.0.1:8888',
-    }
+
     resp = requests.post(url, json=payload, verify=False, proxies=settings.proxy)
+
+
     return  resp
+
+
+# def make_req(url,payload,token=None):
+#     base_url='https://finsense.finvu.in/ConnectHub/FIU/API/V1'
+#     url=base_url+url
+#     headers={}
+#     resp=''
+#     if token is not None:
+#         headers={'Authorization' :'Bearer '+token}
+#         resp = requests.post(url, json=payload, verify=False, proxies=settings.proxy, headers=headers)
+#     else:
+#         resp = requests.post(url, json=payload, verify=False, proxies=settings.proxy)
+#
+#
+#     return  resp
 
 
     # detail_dict = add_user_test_acc(detail_dict)

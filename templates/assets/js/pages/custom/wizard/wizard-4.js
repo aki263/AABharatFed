@@ -1,5 +1,17 @@
 "use strict";
 
+
+// $('#nextbtn').click(function() {
+//  KTApp.blockPage({
+//   overlayColor: '#000000',
+//   state: 'danger',
+//   message: 'Please wait...'
+//  });
+//
+//  setTimeout(function() {
+//   KTApp.unblockPage();
+//  }, 2000);
+// });
 // Class definition
 var KTWizard4 = function () {
 	// Base elements
@@ -14,31 +26,80 @@ var KTWizard4 = function () {
 		_wizard = new KTWizard(_wizardEl, {
 			startStep: 1, // initial active step number
 			clickableSteps: true  // allow step clicking
+
 		});
 
 		// Validation before going to next page
 		_wizard.on('beforeNext', function (wizard) {
+
+			if (wizard.getStep()==1){
+						console.log("-------------")
+						KTApp.blockPage({
+							  overlayColor: '#000000',
+							  state: 'danger',
+							  message: 'Sending OTP. Please wait...'
+							 });
+						setTimeout(function() {
+				  KTApp.unblockPage();
+				 }, 2000);
+					}
+
+
+
+					if (wizard.getStep()==2){
+						console.log("-------------")
+						KTApp.blockPage({
+							  overlayColor: '#000000',
+							  state: 'danger',
+							  message: 'Please wait...'
+							 });
+						setTimeout(function() {
+				  KTApp.unblockPage();
+				 }, 2000);
+					}
+
+
+					if (wizard.getStep()==3){
+						console.log("-------------")
+						KTApp.blockPage({
+							  overlayColor: '#000000',
+							  state: 'danger',
+							  message: 'Sending OTP. Please wait...'
+							 });
+						setTimeout(function() {
+				  KTApp.unblockPage();
+				 }, 2000);
+
+						_formEl.submit();
+					}
+
+					if (wizard.getStep()==4){
+						console.log("-------------")
+						KTApp.blockPage({
+							  overlayColor: '#000000',
+							  state: 'danger',
+							  message: 'Sending OTP. Please wait...'
+							 });
+						setTimeout(function() {
+				  KTApp.unblockPage();
+				 }, 2000);
+
+
+
+					}
+
 			// Don't go to the next step yet
 			_wizard.stop();
 
 			// Validate form
 			var validator = _validations[wizard.getStep() - 1]; // get validator for currnt step
 			validator.validate().then(function (status) {
-				if (status == 'Valid') {
+				if (true) {
+					console.log(wizard.getStep());
+
+
 					_wizard.goNext();
 					KTUtil.scrollTop();
-				} else {
-					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
-						customClass: {
-							confirmButton: "btn font-weight-bold btn-light"
-						}
-					}).then(function () {
-						KTUtil.scrollTop();
-					});
 				}
 			});
 		});

@@ -2,13 +2,11 @@ from background_task import background
 from django.contrib.auth.models import User
 import requests
 from .models import Settings
+from AABharatFed import settings
 
 
 def create_dummy_data(mobile_numberm):
-    proxy = {
-        'http': 'http://127.0.0.1:8888',
-        'https': 'http://127.0.0.1:8888',
-    }
+
     url='https://sandbox.moneyone.in/developerportalserver_sandbox/api/finproadmin/createMockData'
     headers={
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
@@ -27,5 +25,5 @@ def create_dummy_data(mobile_numberm):
     token=Settings.objects.get(id=1).google_auth_token
     headers['Authorization']=token
     payload={"mobileNumber":mobile_numberm}
-    resp=requests.post(url,json=payload,proxies=proxy,verify=False,headers=headers)
+    resp=requests.post(url,json=payload,proxies=settings.proxy,verify=False,headers=headers)
     print('BACKGROUND',resp.text)

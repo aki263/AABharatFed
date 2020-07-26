@@ -24,7 +24,7 @@ SECRET_KEY = 'zfshsioe-e&5do2*vpvuuk0(+jn6vnke5f7w&-wc&cdnx4rl6('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.97','bharatfed.com']
 
 # Application definition
 
@@ -58,7 +58,10 @@ ACCOUNT_FORMS = {'signup': 'AccAggApp.forms.MyCustomSignupForm'}
 ROOT_URLCONF = 'AABharatFed.urls'
 
 proxy=None
-
+# proxy = {
+#         'http': 'http://127.0.0.1:8888',
+#         'https': 'http://127.0.0.1:8888',
+#     }
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

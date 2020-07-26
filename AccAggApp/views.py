@@ -21,7 +21,10 @@ from .models import *
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
         try:
+
             profile = Profile.objects.get(user=request.user)
+            if profile.profile_complete is True:
+                return redirect('/accounts/dashboard/')
             mobile=profile.mobile
             sessionid=profile.sessionid
             base_url='https://api-sandbox.onemoney.in'
@@ -55,23 +58,22 @@ class ProfileView(LoginRequiredMixin, View):
 
 
 
-            return render(request, 'profile.html', {'login': acc,'dashboard':resp.json(),'username':request.user})
+            return render(request, 'profilec.html', {'login': acc,'dashboard':resp.json(),'username':request.user})
+
         except Exception as ex:
             print(ex)
-            return render(request, 'profile.html', {'login': 'acc created','dashboard':''})
+            return render(request, 'profilec.html', {'login': 'acc created','dashboard':''})
 
     def post(self,request):
-
-        return render(request, 'profile.html', {'login': 'Added Succeess'})
+        profile = Profile.objects.get(user=request.user)
+        profile.profile_complete=True
+        profile.save()
+        return redirect('/accounts/dashboard/')
 
 
 
 def make_req_with_session(url,payload,sessionid):
-    proxy = {
-        'http': 'http://127.0.0.1:8888',
-        'https': 'http://127.0.0.1:8888',
-    }
-    # proxy=None
+
     headers={'sessionId':sessionid}
     resp = requests.post(url, json=payload, verify=False, proxies=settings.proxy,headers=headers)
     return  resp
@@ -131,10 +133,7 @@ class Conset1(LoginRequiredMixin,View):
 
                   }
                 }
-        proxy = {
-            'http': 'http://127.0.0.1:8888',
-            'https': 'http://127.0.0.1:8888',
-        }
+
         headers={'client_api_key':client_api_key}
         resp=requests.post(url,json=payload,verify=False, proxies=settings.proxy,headers=headers)
 
@@ -176,5 +175,25 @@ class profile2(View):
         return render(request, 'profilec.html', {'login': 'Added Succeess'})
 
     def post(self,request):
-        return redirect('accounts/dashboard/')
+        return redirect('/accounts/dashboard/')
 
+class Dashboard(LoginRequiredMixin,View):
+    def get(self,request):
+        return render(request,'dashboard.html', {'user':request.user, 'first_name':request.user.first_name,'last_name':request.user.last_name,
+                                                 'first_name_letter': str(request.user.first_name[:1]).upper(),
+                                                 'full_name': request.user.first_name +' '+request.user.last_name,'noti_msg':'3'} )
+
+    def post(self,request):
+        return redirect('/accounts/dashboard/')
+
+class Expense(LoginRequiredMixin,View):
+    def get(self,request):
+        return render(request,'expense.html', {'user':request.user, 'first_name':request.user.first_name,'last_name':request.user.last_name,
+                                                 'first_name_letter': str(request.user.first_name[:1]).upper(),
+                                                 'full_name': request.user.first_name +' '+request.user.last_name,'noti_msg':'3'} )
+
+    def post(self,request):
+        return render(request, 'expense.html',
+                      {'user': request.user, 'first_name': request.user.first_name, 'last_name': request.user.last_name,
+                       'first_name_letter': str(request.user.first_name[:1]).upper(),
+                       'full_name': request.user.first_name + ' ' + request.user.last_name, 'noti_msg': '3'})
